@@ -3,6 +3,8 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Lesson;
+use App\Models\Reservation;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\Response;
@@ -13,32 +15,45 @@ class LessonControllerTest extends TestCase
     use RefreshDatabase;
 
     /**
-     * A basic feature test example.
-     *
-     * @return void
+     * @param int $capacity
+     * @param int $reservationCount
+     * @param string $expectedVacancyLevelMark
+     * @dataProvider dataShow
      */
-    // public function test_example()
-    // {
-    //     $response = $this->get('/');
-
-    //     $response->assertStatus(200);
-    // }
-
-    /** 
-     * GET /lessons/{id}
-     * */
-    public function testShow()
+    public function testShow(int $capacity, int $reservationCount, string $expectedVacancyLevelMark)
     {
-        // $response = $this->get('/lessons/1');
-        // $response->assertSee('楽しいヨガレッスン');
-        // $response->assertSee('×');
+        $lesson = Lesson::factory()->create(['name' => '楽しいヨガレッスン', 'capacity' => $capacity]);
+        for ($i = 0; $i < $reservationCount; $i++) {
+            $user = User::factory()->create();
+            Reservation::factory()->create(['lesson_id' => $lesson->id, 'user_id' => $user->id]);
+        }
 
-        $lesson = Lesson::factory()->create(['name' => '楽しいヨガレッスン']);
 
         $response = $this->get("/lessons/{$lesson->id}");
 
         $response->assertStatus(Response::HTTP_OK);
         $response->assertSee($lesson->name);
-        $response->assertSee('空き状況: ×');
+        $response->assertSee("空き状況: {$expectedVacancyLevelMark}");
+    }
+
+    public function dataShow()
+    {
+        return [
+            '空き十分' => [
+                'capacity' => 6,
+                'reservationCount' => 1,
+                'expectedVacancyLevelMark' => '◎',
+            ],
+            '空きわずか' => [
+                'capacity' => 6,
+                'reservationCount' => 2,
+                'expectedVacancyLevelMark' => '△',
+            ],
+            '空きなし' => [
+                'capacity' => 1,
+                'reservationCount' => 1,
+                'expectedVacancyLevelMark' => '×',
+            ],
+        ];
     }
 }

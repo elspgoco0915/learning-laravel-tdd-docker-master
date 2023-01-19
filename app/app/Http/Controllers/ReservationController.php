@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreLessonRequest;
-use App\Http\Requests\UpdateLessonRequest;
-use App\Models\Lesson;
-use App\Models\VacancyLevel;
+use App\Http\Requests\StoreReservationRequest;
+use App\Http\Requests\UpdateReservationRequest;
+use App\Models\Reservation;
 
-class LessonController extends Controller
+class ReservationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -32,10 +31,10 @@ class LessonController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreLessonRequest  $request
+     * @param  \App\Http\Requests\StoreReservationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreLessonRequest $request)
+    public function store(StoreReservationRequest $request)
     {
         //
     }
@@ -43,21 +42,21 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function show(Lesson $lesson)
+    public function show(Reservation $reservation)
     {
-        return view('lesson.show', compact('lesson'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function edit(Lesson $lesson)
+    public function edit(Reservation $reservation)
     {
         //
     }
@@ -65,11 +64,11 @@ class LessonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateLessonRequest  $request
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Http\Requests\UpdateReservationRequest  $request
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateLessonRequest $request, Lesson $lesson)
+    public function update(UpdateReservationRequest $request, Reservation $reservation)
     {
         //
     }
@@ -77,10 +76,10 @@ class LessonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Lesson  $lesson
+     * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Lesson $lesson)
+    public function destroy(Reservation $reservation)
     {
         //
     }

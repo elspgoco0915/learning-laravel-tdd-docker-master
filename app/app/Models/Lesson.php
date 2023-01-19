@@ -4,10 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Reservation;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Lesson extends Model
 {
     use HasFactory;
+
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
 
     public function getVacancyLevelAttribute(): VacancyLevel
     {
@@ -16,6 +23,6 @@ class Lesson extends Model
 
     private function remainingCount(): int
     {
-        return 0;
+        return $this->capacity - $this->reservations()->count();
     }
 }
